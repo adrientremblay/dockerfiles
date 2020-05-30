@@ -20,26 +20,3 @@ RUN virtualenv --python=/usr/bin/python3.6 venv && . venv/bin/activate && pip in
 ros-kinetic-cv-camera \
 ros-kinetic-web-video-server && echo '\n\n#competition mode\n#export ROS_MASTER_URI=http://172.16.1.30:11311\n#export ROS_HOSTNAME=$USER\n. ~/Programming/robotics-prototype/robot/rospackages/devel/setup.bash\n. ~/Programming/robotics-prototype/venv/bin/activate\nsource ~/Programming/robotics-prototype/robot/basestation/config/.bash_aliases' >> ~/.bashrc && robot/basestation/env.sh >| robot/basestation/static/js/env.js && sed -i '2s|.*|ROBOTICS_WS="/root/Programming/robotics-prototype"|' ~/Programming/robotics-prototype/robot/basestation/config/.bash_aliases && cp commit-message-hook.sh .git/hooks/prepare-commit-msg && cp branch_name_verification_hook.py .git/hooks/post-checkout
 # replaced the 2nd line of .bash_aliases.  Kind of a retared solution
-
-# install chrome
-# RUN apt-get install -y wget && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && sudo apt-get -f install && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && sudo dpkg -i google-chrome-stable_current_amd64.deb
-
-# Install x11vnc.
-RUN apt-get install -y x11vnc
-# Install xvfb.
-RUN apt-get install -y xvfb
-# Install fluxbox.
-RUN apt-get install -y fluxbox
-# Install wget.
-RUN apt-get install -y wget
-# Install wmctrl.
-RUN apt-get install -y wmctrl
-# Set the Chrome repo.
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
-# Install Chrome.
-RUN apt-get update && apt-get -y install google-chrome-stable
-
-# Run bootstrap
-# COPY bootstrap.sh /
-# CMD '/bootstrap.sh'
