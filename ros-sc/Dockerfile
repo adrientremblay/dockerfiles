@@ -1,14 +1,20 @@
+# building from ros:kinetic image
 FROM ros:kinetic 
 
+# create a user for this image with username 'scuser'
 RUN useradd scuser \
+# disabling password for sudo (required to work with this image)
 && echo 'scuser ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
+# switching to new user
 USER scuser
 
 ENV USER=scuser
 
+# set workdir
 WORKDIR home/scuser/Programming/robotics-prototype/ 
 
+# move root bashrc to home
 RUN sudo mv /root/.bashrc ~/ \
 && sudo apt-get update \
 && sudo apt-get install -y python-pip \
@@ -26,6 +32,7 @@ software-properties-common \
 # clone the repo
 RUN sudo git clone --recursive https://github.com/space-concordia-robotics/robotics-prototype . ; exit 0
 
+# creating venv
 ENV VIRTUAL_ENV=venv
 RUN sudo virtualenv --python=/usr/bin/python3.6 $VIRTUAL_ENV  
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
@@ -42,5 +49,3 @@ ros-kinetic-web-video-server \
 && echo '\n#ros aliases\nsource /opt/ros/kinetic/setup.bash\n#competition mode\n#export ROS_MASTER_URI=http://172.16.1.30:11311\n#export ROS_HOSTNAME=$USER\n. ~/Programming/robotics-prototype/robot/rospackages/devel/setup.bash\n. ~/Programming/robotics-prototype/venv/bin/activate\nsource ~/Programming/robotics-prototype/robot/basestation/config/.bash_aliases' >> ~/.bashrc \
 && robot/basestation/env.sh >| robot/basestation/static/js/env.js 
 # && cp commit-message-hook.sh .git/hooks/prepare-commit-msg && cp branch_name_verification_hook.py .git/hooks/post-checkout 
-
-# RUN . /opt/ros/kinetic/setup.bash
