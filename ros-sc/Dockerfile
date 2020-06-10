@@ -46,6 +46,9 @@ RUN python --version \
 && sudo apt-get install -y ros-kinetic-rosbridge-suite \
 ros-kinetic-cv-camera \
 ros-kinetic-web-video-server \
+&& rosdep update \
+&& /bin/bash -c '. /opt/ros/kinetic/setup.bash; cd ~/Programming/robotics-prototype/robot/rospackages ; rosdep install --from-paths src/ --ignore-src -r -y ; catkin_make' \
 && echo '\n#ros aliases\nsource /opt/ros/kinetic/setup.bash\n#competition mode\n#export ROS_MASTER_URI=http://172.16.1.30:11311\n#export ROS_HOSTNAME=$USER\n. ~/Programming/robotics-prototype/robot/rospackages/devel/setup.bash\n. ~/Programming/robotics-prototype/venv/bin/activate\nsource ~/Programming/robotics-prototype/robot/basestation/config/.bash_aliases' >> ~/.bashrc \
 && robot/basestation/env.sh >| robot/basestation/static/js/env.js 
 # && cp commit-message-hook.sh .git/hooks/prepare-commit-msg && cp branch_name_verification_hook.py .git/hooks/post-checkout 
+
